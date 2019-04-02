@@ -1,5 +1,5 @@
 import { TEST } from '../constants/test'
-import { testPort } from '../../../api/test'
+import { testPort } from 'api/test'
 
 const test = {
     state: {

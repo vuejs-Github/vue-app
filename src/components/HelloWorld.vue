@@ -1,14 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ test }}</h1>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+
+  computed: {
+    ...mapGetters(['test'])
   }
 }
 </script>
