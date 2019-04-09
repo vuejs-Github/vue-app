@@ -18,7 +18,7 @@ export default {
 
   data(){
     return {
-      books: ['水浒传','红楼梦']
+      books: ['水浒传','红楼梦', process.env.VUE_APP_URL]
     }
   },
 
