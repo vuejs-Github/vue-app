@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld/>
-    <el-button type="info" @click="changeMsg('is my-project')">changeMsg</el-button>
+    <el-button type="info" @click="changeMsg(books)">changeMsg</el-button>
   </div>
 </template>
 
@@ -15,13 +15,23 @@ export default {
   components: {
     HelloWorld
   },
+
+  data(){
+    return {
+      books: ['水浒传','红楼梦']
+    }
+  },
+
   methods: {
     ...mapActions(['test']),
 
-    changeMsg(msg){
-      this.test(msg)
+    changeMsg(books){
+      for(const [index, value] of books.entries()){
+        console.log(`第${index}本书是${value}`)
+      }
+      this.test(books)
     }
-  }
+  },
 }
 </script>
 

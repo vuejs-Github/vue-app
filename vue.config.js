@@ -1,9 +1,8 @@
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
-const fs = require('fs')
 
 module.exports = {
-  baseUrl: './',
+  // baseUrl: './',
   runtimeCompiler: true,
   // 配置路径别名
   chainWebpack: config => {
@@ -14,6 +13,9 @@ module.exports = {
   // 传递第三方插件选项
   pluginOptions: {
     
+  },
+  devServer: {
+    disableHostCheck: true,
   },
   // 全局注入通用样式
   css: {
