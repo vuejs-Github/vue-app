@@ -1,0 +1,30 @@
+{
+  "name": "mock",
+  "version": "1.0.0",
+  "description": "mock",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "mock": "nodemon mock"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "koa": "1.6.0",
+    "koa-bodyparser": "2.5.0",
+    "koa-compress": "1.0.9",
+    "koa-jwt": "1.3.2",
+    "koa-multer": "1.0.2",
+    "koa-router": "5.4.0",
+    "koa-static": "2.0.0",
+    "nodemon": "1.17.3"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
