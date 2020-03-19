@@ -9,7 +9,7 @@ const router =  new VueRouter({
     routes: [
         {
             path: '/',
-            component: app,
+            component: () => import('@/App.vue'),
             name: '首页',
         }
     ]
