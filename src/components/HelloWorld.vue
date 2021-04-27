@@ -11,7 +11,7 @@ export default {
   name: 'HelloWorld',
 
   computed: {
-    ...mapGetters(['test'])
+    ...mapGetters(['assists'])
   }
 }
 </script>

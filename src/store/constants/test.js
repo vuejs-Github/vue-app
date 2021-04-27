@@ -1,1 +1,2 @@
-export const TEST = 'TEST'
+export const GETASSISTS = 'GETASSISTS'
+export const GETSYNERGYS = 'GETSYNERGYS'

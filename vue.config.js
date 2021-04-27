@@ -2,7 +2,7 @@ const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
-  publicPath: '/',//根路径
+  publicPath: './',//根路径
   outputDir: 'dist',//构建输出目录
   assetsDir:'assets',//静态资源目录(js,css,img,fonts)
   lintOnSave:false,//是否开启eslint保存检测，有效值：true||false||error
@@ -11,7 +11,6 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))
-      .set('api', resolve('api/'))
   },
   // 传递第三方插件选项
   pluginOptions: {
