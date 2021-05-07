@@ -278,10 +278,11 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     //登录
     this.session()
-
+  },
+  created() {
     this.dealTags();
     //查询协同
     this.init();
