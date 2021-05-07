@@ -1,32 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import app from '@/App'
-
 Vue.use(VueRouter)
 
-const router =  new VueRouter({
-    routes: [
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/app',
+      name: 'app',
+      component: () => import('@/App.vue'),
+      children: [
         {
-            path: '/',
-            component: () => import('@/App.vue'),
-            name: '首页',
-            children: [
-              {
-                path: '/',
-                component: () => import('@/views/expert/expert'),
-                name: '专家列表',
-                meta: { title: '专家列表', icon: 'expert', affix: true }
-              },
-              {
-                path: '/detail',
-                component: () => import('@/views/details/details'),
-                name: '详情',
-                meta: { title: '详情', icon: 'expert', affix: true }
-              }
-            ]
+          path: '/expert',
+          name: '专家列表',
+          component: () => import('@/views/expert/expert'),
+          meta: { title: '专家列表', icon: 'expert', affix: true }
+        },
+        {
+          path: '/detail',
+          name: '详情',
+          component: () => import('@/views/details/details'),
+          meta: { title: '详情', icon: 'expert', affix: true }
         }
-    ]
+      ]
+    }
+  ]
 })
 
 export default router

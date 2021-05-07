@@ -20,7 +20,7 @@ module.exports = {
     open: false,//启动项目自动打开浏览器
     host: 'localhost',
     port: 8091,//端口号
-    https: false,
+    https: true,
     hotOnly: false,//webpack已经配置了
     proxy: {
       //配置跨域

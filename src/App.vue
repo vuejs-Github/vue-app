@@ -1,13 +1,16 @@
 <template>
   <div>
-    <HoloviewSdk widget="Main" :token="token" appKey="uc-0001" />
     <router-view />
+    <holoview-sdk widget="Main" baseUrl="https://192.168.11.252" v-if="token" :token="token" appKey="000001" />
   </div>
 </template>
 
 <script>
+import HoloviewSdk from 'holoview-sdk'
 import { mapActions, mapGetters } from "vuex";
 import PubSub from "pubsub-js";
+import { session } from "@/api/test.js";
+import { uuid } from "@/assets/js/common";
 import {
   GET_MY_SYNERGYS,
   GET_INIT_SYNERGY,
@@ -19,18 +22,30 @@ import {
 
 export default {
   name: "app",
-  components: {},
+  components: {
+    HoloviewSdk
+  },
   computed: {
     ...mapGetters(["assists", "synergys"]),
   },
   data() {
     return {
       changeTask: {},
+      token: ''
     };
   },
 
   methods: {
     ...mapActions(["taskList", "initMySynergy"]),
+
+    async session() {
+      const data = {
+        device: 301,
+        host: uuid()
+      }
+      const { result } = await session(data);
+      this.token = result.token
+    },
 
     dealTags() {
       // if (window.name == "") {
@@ -105,7 +120,7 @@ export default {
       });
       //被踢
       PubSub.subscribe("KICKED_SDK", () => {
-        this.props.history.push("/");
+        this.$router.history.push("/expert");
       });
       //结束协同后重新查询
       PubSub.subscribe("END_SDK", (n, rid) => {
@@ -264,6 +279,9 @@ export default {
     },
   },
   created() {
+    //登录
+    this.session()
+
     this.dealTags();
     //查询协同
     this.init();

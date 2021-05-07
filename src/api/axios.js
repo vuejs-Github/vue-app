@@ -12,7 +12,7 @@ const instance = axios.create({
 let loadingService
 // Add a request interceptor
 instance.interceptors.request.use(config => {
-  config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2UiOiIzMDEiLCJleHAiOjQ3NzI4MjA0NzIsImhvc3QiOiJkZnNmc2ZkIiwiaWRlbnRpdHkiOjIzLCJvcmlnX2lhdCI6MTYxOTE4NDQ3Miwicm9sZSI6IjAiLCJ0ZW5hbnRpZCI6IjE2MzE1ODk5NDAxMjA4MjY0IiwidXNlcmlkIjoiMTYzMTU4OTk0NjgzMTcxMjgiLCJ1c2VybmFtZSI6Im1hcmvmtYvor5UifQ.Fm1EWcZW6ekiCSyhlq53cmugClmrpk6uC1jfRtjX5_w'
+  config.headers.Authorization = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiAiMDEwMDAxMTI3Mzg5MzkxIiwgInRlbmFudGlkIjogIjE2MzE1ODk5NDAxMjA4MjY0IiwgInVzZXJuYW1lIjogIm1hcmtfMyIsICJpZGVudGl0eSI6IDEsICJyb2xlIjogIjEiLCAiZGV2aWNlIjogIjMwMSIsICJob3N0IjogImFhIn0.23Ddi6a1JhN7RzZ2CZQ9mzriKIizb83DvNbdsB7D7AM'
   // Do something before request is sent
   loadingService = Loading.service({
     lock: true,
