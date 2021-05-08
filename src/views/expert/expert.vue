@@ -128,6 +128,7 @@ export default {
         status: 4,
         size: this.overSize,
         num: this.overNum,
+        ttype: 1
       };
       const { result, count } = await taskList(data);
       this.overTable = result;

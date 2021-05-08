@@ -1,5 +1,11 @@
 <template>
-  <el-dialog class="dialog" :show-close="false" :before-close="close" :visible.sync="inviteVisible" width="800">
+  <el-dialog
+    class="dialog"
+    :show-close="false"
+    :before-close="close"
+    :visible.sync="inviteVisible"
+    width="800px"
+  >
     <el-row>
       <el-col :span="12">
         <div
@@ -11,8 +17,8 @@
         <div
           class="scroll-bar boderT1"
           style="
-            min-height: 400;
-            max-height: 400;
+            min-height: 400px;
+            max-height: 400px;
             overflow: auto;
             border-right: 1px solid #e5e5e5;
           "
@@ -20,15 +26,13 @@
           <div
             v-for="item of inviteRoom"
             :key="item.uid"
-            class="p10 mouse-pointer"
+            class="p10"
             style="border-bottom: 1px solid #e5e5e5"
           >
-            <el-checkbox
-              checked="{item.selected}"
-              class="mr10 ml10"
-            ></el-checkbox>
-            <el-avatar size="large" icon="el-icon-user" />
-            <span class="ml10" style="color: #38434c">{{ item.name }}</span>
+            <el-checkbox v-model="item.checked" class="mr10 ml10 checkbox">
+              <el-avatar size="large" icon="el-icon-user" />
+              <span class="ml10" style="color: #38434c">{{ item.name }}</span>
+            </el-checkbox>
           </div>
         </div>
       </el-col>
@@ -39,11 +43,11 @@
             *<span>最多可邀请3位员工</span>
           </span>
         </div>
-        <div class="boderT1" style="min-height: 400px; max-height: 400px">
+        <div class="boderT1" style="min-height: 400px; max-height: 400px; overflow: auto;width: 100%">
           <div
             v-for="item of inRoom"
             :key="item.uid"
-            class="p10"
+            class="p10 member"
             style="border-bottom: 1px solid #e5e5e5"
           >
             <el-avatar class="ml10" size="large" icon="el-icon-user" />
@@ -69,7 +73,7 @@
 <script>
 import { members, list } from "../../../api/test";
 export default {
-  props: ["inviteVisible"],
+  props: ["inviteVisible", 'taskid'],
   data() {
     return {
       inviteRoom: [],
@@ -89,7 +93,7 @@ export default {
     },
     async room(flag, getInRoom) {
       //在房间
-      let res = await members();
+      let res = await members({taskid: this.taskid});
       this.inRoom = res.result;
 
       // getInRoom ? getInRoom(res.result) : ""; //获取列表
@@ -127,11 +131,21 @@ export default {
 <style scoped lang="scss">
 .dialog {
   /deep/ {
-    .el-dialog__header{
-      padding: 0
-    }
-    .el-dialog__body{
+    .el-dialog__header {
       padding: 0;
+    }
+    .el-dialog__body {
+      padding: 0;
+    }
+  }
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  /deep/ {
+    .el-checkbox__label {
+      display: flex;
+      align-items: center;
     }
   }
 }
@@ -155,6 +169,10 @@ export default {
   &::-webkit-scrollbar-track {
     display: none;
   }
+}
+.member {
+  display: flex;
+  align-items: center;
 }
 .boderT1 {
   border-top: 1px solid #f0f0f0;

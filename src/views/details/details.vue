@@ -14,7 +14,7 @@
         />
       </el-col>
     </el-row>
-    <invite-dialog :inviteVisible.sync="inviteVisible"/>
+    <invite-dialog :inviteVisible.sync="inviteVisible" :taskid="params.taskid"/>
   </div>
 </template>
 
