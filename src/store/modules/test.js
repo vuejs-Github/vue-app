@@ -1,4 +1,4 @@
-import { GETASSISTS, GETSYNERGYS } from '../constants/test'
+import { GETASSISTS, GETSYNERGYS, SYNERGYSPAGE } from '../constants/test'
 import { taskList } from '@/api/test'
 
 const test = {
@@ -8,6 +8,10 @@ const test = {
     },
     synergys: {
       result: []
+    },
+    synergysPage: {
+      mNum: 1,
+      mSize: 10
     }
   },
 
@@ -17,6 +21,9 @@ const test = {
     },
     [GETSYNERGYS](state, data) {
       state.synergys = data
+    },
+    [SYNERGYSPAGE](state, data) {
+      state.synergysPage = {...state.synergysPage, ...data}
     }
   },
 
@@ -39,6 +46,9 @@ const test = {
     },
     synergys: state => {
       return state.synergys
+    },
+    synergysPage: state => {
+      return state.synergysPage
     }
   }
 }

@@ -46,6 +46,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="initAM($event, 'size')"
+        @current-change="initAM($event, 'num')"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="synergysPage.mSize"
+        background
+        :current-page.sync="synergysPage.mNum"
+        class="float-right mt10"
+        layout="prev, pager, next, sizes"
+        :total="synergys.count"
+      >
+      </el-pagination>
     </div>
     <div v-else>
       <h3>已结束协同</h3>
@@ -80,9 +92,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { stringify } from "qs";
 import { taskList } from "@/api/test.js";
+import { SYNERGYSPAGE } from '../../store/constants/test'
 import {
   HANG_UP,
   GET_INIT_MY_SYNERGY,
@@ -92,7 +105,7 @@ import {
 export default {
   name: "expert",
   computed: {
-    ...mapGetters(["assists", "synergys"]),
+    ...mapGetters(["assists", "synergys", "synergysPage"]),
   },
   data() {
     return {
@@ -106,6 +119,8 @@ export default {
     };
   },
   methods: {
+    ...mapMutations([SYNERGYSPAGE]),
+
     async initOver(v, type) {
       type === "size" && (this.overSize = v);
       type === "num" && (this.overNum = v);
@@ -167,22 +182,12 @@ export default {
       sessionStorage.setItem("flag", e.target.value);
     },
 
-    initAM(flag, e) {
-      if (flag == "A") {
-        this.setState({
-          assistsNum: e.current,
-          assistsSize: e.pageSize,
-        });
-      } else {
-        this.props.setNumSize({
-          myNum: e.current,
-          mySize: e.pageSize,
-        });
-      }
+    initAM(v, type) {
+      type === "size" && this[SYNERGYSPAGE]({mSize: v})
+      type === "num" && this[SYNERGYSPAGE]({mNum: v})
       let data = {
-        flag,
-        current: e.current,
-        pageSize: e.pageSize,
+        current: this.synergysPage.mNum,
+        pageSize: this.synergysPage.mSize,
       };
       PubSub.publish(GET_INIT_MY_SYNERGY, data);
     },

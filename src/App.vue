@@ -7,9 +7,10 @@
 
 <script>
 import HoloviewSdk from 'holoview-sdk'
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import PubSub from "pubsub-js";
 import { session } from "@/api/test.js";
+import { SYNERGYSPAGE } from './store/constants/test'
 import { uuid } from "@/assets/js/common";
 import {
   GET_MY_SYNERGYS,
@@ -37,6 +38,7 @@ export default {
 
   methods: {
     ...mapActions(["taskList", "initMySynergy"]),
+    ...mapMutations([SYNERGYSPAGE]),
 
     async session() {
       const data = {
@@ -232,7 +234,7 @@ export default {
 
     init(v) {
       //协助协同总条数  注意要先查询协助协同，否则邀请专家会出现添加到我的协同的bug
-      this.taskList({ num: 0, size: 110, ttype: 2 }).then(() => {
+      this.taskList({ num: 1, size: 100, ttype: 2 }).then(() => {
         //我的协同
         if (!v) {
           this.initMySynergy();
@@ -242,9 +244,13 @@ export default {
 
     //我的协同
     async initMySynergy(data, NO) {
+      if(!data) {
+        //分页重置
+        this[SYNERGYSPAGE]({mNum: 1, mSize: 10})
+      }
       let params = {
-        num: 1,
-        size: 10,
+        num: data ? data.current : 1,
+        size: data ? data.pageSize : 10,
         ttype: 1,
       };
       //我的协同总条数及列表信息

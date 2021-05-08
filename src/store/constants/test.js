@@ -1,2 +1,3 @@
 export const GETASSISTS = 'GETASSISTS'
 export const GETSYNERGYS = 'GETSYNERGYS'
+export const SYNERGYSPAGE = 'SYNERGYSPAGE'
