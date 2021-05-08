@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="height100">
     <router-view />
     <holoview-sdk widget="Main" baseUrl="https://192.168.11.252" v-if="token" :token="token" appKey="000001" />
   </div>
@@ -20,6 +20,7 @@ import {
   NEW_TASK_LIST,
   CHANGE_INIT_PAGE,
 } from "@/constants/types.js";
+import { status, task } from "@/api/test.js";
 
 export default {
   name: "app",
@@ -70,11 +71,11 @@ export default {
               } else {
                 item.msgTip++;
               }
-              let httpUrl = this.props.location.search;
-              let rid = url.parse(httpUrl, true).query.rid;
-              if (res.targetId != rid) {
-                this.stockpile(res, page, item);
-              }
+              // let httpUrl = this.props.location.search;
+              // let rid = url.parse(httpUrl, true).query.rid;
+              // if (res.targetId != rid) {
+              //   this.stockpile(res, page, item);
+              // }
               item.timer = new Date().getTime();
             }
             if (res.hasOwnProperty("vv")) {
@@ -83,7 +84,7 @@ export default {
             }
           } else {
             item.msgTip = "";
-            this.stockpile(res, page, item);
+            // this.stockpile(res, page, item);
           }
         }
       });
@@ -173,13 +174,9 @@ export default {
 
         if (!whichPage) {
           //邀请专家不执行,收到消息的协同不在第一页时,需要查询单条信息，添加到第一页
-          this.props.setNumSize({ myLoading: true, synergyLoading: true }); //loading
-          let { result } = await $api.agenttask(
-            `${res.targetId}&extend=true`,
-            "get",
-            "rid"
-          );
-          this.props.setNumSize({ myLoading: false, synergyLoading: false });
+          // this.props.setNumSize({ myLoading: true, synergyLoading: true }); //loading
+          let { result } = await task({roomid: res.targetId});
+          // this.props.setNumSize({ myLoading: false, synergyLoading: false });
           if (result.status >= 4) {
             return intl.get("ClosedSynergy");
           }
@@ -199,13 +196,6 @@ export default {
               }
               mySynergys.unshift(result);
               break;
-            case 2:
-              whichPage = "newTaskList";
-              if (newTaskList.length == this.state.newTaskListPageSize) {
-                newTaskList.pop();
-              }
-              newTaskList.unshift(result);
-              break;
           }
         }
         if (whichPage == "mySynergys") {
@@ -215,10 +205,11 @@ export default {
           //   sync: true,
           // });
         } else if (whichPage == "assists") {
-          this.props.getAssists({
-            assists: this.getTipIcon(assists, res, "assists"),
-            sync: true,
-          });
+          this.getTipIcon(assists, res, "assists")
+          // this.props.getAssists({
+          //   assists: this.getTipIcon(assists, res, "assists"),
+          //   sync: true,
+          // });
         }
       });
     },
@@ -279,7 +270,7 @@ export default {
       for (let item of result) {
         //改变接受状态
         if (item.status == 0) {
-          $api.status({ taskid: item.taskid, opercode: "accept" });
+          status({ taskid: item.taskid, status: 1 });
         }
       }
     },
@@ -305,7 +296,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.height100 {
+  height: 100%;
+}
 // @import '~normalize.css/normalize.css';
 // @import './styles/index.scss';
 </style>

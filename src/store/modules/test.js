@@ -30,6 +30,9 @@ const test = {
   actions: {
     taskList({ commit }, data) {
       return taskList(data).then(res => {
+        for (let item of res.result) {
+          item.rid = item.roomid
+        }
         if(data.ttype == 2) {
           commit(GETASSISTS, res)
         } else {
