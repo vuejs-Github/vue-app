@@ -43,7 +43,7 @@ export default {
 
     async session() {
       const data = {
-        device: 301,
+        device: '301',
         host: uuid()
       }
       const { result } = await session(data);
@@ -296,9 +296,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .height100 {
   height: 100%;
+}
+.mouse-pointer {
+  cursor: pointer;
 }
 // @import '~normalize.css/normalize.css';
 // @import './styles/index.scss';

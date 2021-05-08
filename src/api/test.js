@@ -29,3 +29,16 @@ export function task(data) {
     method: 'get'
   })
 }
+export function list(data) {
+  return axios({
+    url: `${url.list}?${stringify(data)}`,
+    method: 'get'
+  })
+}
+export function members(data, method) {
+  return axios({
+    url: `${url.members}?${stringify(data)}`,
+    method: method || 'get',
+    data
+  })
+}

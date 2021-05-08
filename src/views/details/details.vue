@@ -2,45 +2,55 @@
 <template>
   <div class="height100">
     <el-row class="height100">
-      <el-col :span="12">
-        对接详情数据
-      </el-col>
+      <el-col :span="12"> 对接详情数据 </el-col>
       <el-col :span="12" class="border-left height100">
-        <holoview-sdk widget="Chat" :rid="params.rid"/>
-        <holoview-sdk widget="ChatFoot" videoCall="true" status="synergy" :rid="params.rid"/>
-      </el-col> 
+        <chat-head @room="room" @exit="exit" :taskid="params.taskid" :status="params.status"/>
+        <holoview-sdk widget="Chat" :rid="params.rid" class="height-calc"/>
+        <holoview-sdk
+          widget="ChatFoot"
+          videoCall="true"
+          status="synergy"
+          :rid="params.rid"
+        />
+      </el-col>
     </el-row>
+    <invite-dialog :inviteVisible.sync="inviteVisible"/>
   </div>
 </template>
 
 <script>
-import HoloviewSdk from 'holoview-sdk'
+import HoloviewSdk from "holoview-sdk";
+import chatHead from "./chatHead/chatHead.vue";
+import inviteDialog from "./inviteDialog/inviteDialog.vue";
 export default {
   name: "detail",
   components: {
-    HoloviewSdk
+    HoloviewSdk,
+    chatHead,
+    inviteDialog,
   },
   data() {
     return {
-      assistTable: [],
-      myTable: [],
-      radioType: "ing",
-      params: {
-
-      }
+      params: {},
+      inviteVisible: false
     };
   },
   methods: {
-    initOver() {
+    exit() {},
+    //房间
+    room() {
+      this.inviteVisible = true
     }
   },
   created() {
-    this.params = this.$route.query
-    this.initOver() 
-  }
+    this.params = this.$route.query;
+  },
 };
 </script>
 <style scoped>
+.height-calc >>> .chats{
+  height: calc(100% - 188px)!important;
+}
 .inline-block {
   display: inline-block;
 }
@@ -55,6 +65,6 @@ export default {
 }
 .border-left >>> .holoview-sdk-css .chats,
 .border-left >>> .holoview-sdk-css .ant-row {
-  width: 50%!important;
+  width: 50% !important;
 }
 </style>

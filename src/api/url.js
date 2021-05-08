@@ -9,4 +9,6 @@ module.exports = {
   session: `${url}/v1/tenantra/session`,
   status: `${url}/v1/tenantra/task/status`,
   task: `${url}/v1/tenantra/task`,
+  members: `${url}/v1/tenantra/task/members`,
+  list: `${url}/v1/tenantra/expert/list`,
 }
