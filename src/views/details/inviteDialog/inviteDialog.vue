@@ -2,6 +2,7 @@
   <el-dialog
     class="dialog"
     :show-close="false"
+    :destroy-on-close="true"
     :before-close="close"
     :visible.sync="inviteVisible"
     width="800px"
@@ -37,43 +38,54 @@
         </div>
       </el-col>
       <el-col class="radius8" :span="12">
-        <div style="padding: 20px; color: #38434c" class="radius8">
+        <div style="padding: 19px 20px; color: #38434c" class="radius8">
           <div class="font-bold" style="fontsize: 15px">当前协同成员</div>
           <span class="float-right" style="color: #cd0616">
             *<span>最多可邀请3位员工</span>
           </span>
         </div>
-        <div class="boderT1" style="min-height: 400px; max-height: 400px; overflow: auto;width: 100%">
+        <div
+          class="boderT1"
+          style="
+            min-height: 400px;
+            max-height: 400px;
+            overflow: auto;
+            width: 100%;
+          "
+        >
           <div
             v-for="item of inRoom"
             :key="item.uid"
             class="p10 member"
             style="border-bottom: 1px solid #e5e5e5"
           >
-            <el-avatar class="ml10" size="large" icon="el-icon-user" />
-            <span class="ml10" style="color: #38434c">{{ item.name }}</span>
+            <div>
+              <el-avatar class="ml10" size="large" icon="el-icon-user" />
+              <span class="ml10" style="color: #38434c">{{ item.name }}</span>
+            </div>
             <!-- {
                         this.props.userInfo.holoview_uid == item.holoviewuid &&
                         <span class="ml10 sys-color">({intl.get('myself')})</span>
                       } -->
-            <!-- {
-                        showRemove && item.role != 1 && item.role != 0 &&
-                        <CloseOutlined onClick={this.exit.bind(this, item)} class="float-right mouse-pointer" />
-                      } -->
+            <i
+              v-if="item.role != 1 && item.role != 0"
+              class="el-icon-close mouse-pointer float-right"
+              @click="removeMember(item)"
+            ></i>
           </div>
         </div>
       </el-col>
     </el-row>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
-      <el-button type="primary" @click="close">确 定</el-button>
+      <el-button type="primary" @click="addMember">确 定</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
 import { members, list } from "../../../api/test";
 export default {
-  props: ["inviteVisible", 'taskid'],
+  props: ["inviteVisible", "taskid"],
   data() {
     return {
       inviteRoom: [],
@@ -93,7 +105,7 @@ export default {
     },
     async room(flag, getInRoom) {
       //在房间
-      let res = await members({taskid: this.taskid});
+      let res = await members({ taskid: this.taskid });
       this.inRoom = res.result;
 
       // getInRoom ? getInRoom(res.result) : ""; //获取列表
@@ -105,8 +117,7 @@ export default {
           if (res.result && res.result.length) {
             for (let item of res.result) {
               for (let item2 of r.result) {
-                if (item.uid == item2.holoviewuid) {
-                  item.applicationUid = item2.uid; //把应用层uid给到房间中人
+                if (item.uid == item2.uid) {
                   item2.inRoom = true;
                 }
               }
@@ -122,6 +133,36 @@ export default {
             this.inviteRoom = r.result;
           }
         });
+      }
+    },
+    async addMember() {
+      const uid = this.inviteRoom
+        .map((per) => per.checked && per.uid)
+        .filter((per) => per)
+        .join();
+      if (uid.length) {
+        let { code } = await members({ taskid: this.taskid, uid }, "post");
+        if (code === 0) {
+          this.close();
+          this.$message({
+            message: "邀请成功！",
+            type: "success",
+          });
+        }
+      } else {
+        this.$message({
+          message: "请选择邀请成员",
+          type: "warning",
+        });
+      }
+    },
+    async removeMember({uid}) {
+      let { code } = await members(
+        { taskid: this.taskid, uid },
+        "delete"
+      );
+      if(code === 0) {
+        this.room();
       }
     },
   },
@@ -173,6 +214,11 @@ export default {
 .member {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  div {
+    display: flex;
+    align-items: center;
+  }
 }
 .boderT1 {
   border-top: 1px solid #f0f0f0;

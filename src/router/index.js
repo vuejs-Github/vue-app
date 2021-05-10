@@ -6,6 +6,9 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     {
+      path: '/', redirect: '/expert'
+    },
+    {
       path: '/expert',
       name: '专家列表',
       component: () => import('@/views/expert/expert'),
