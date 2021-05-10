@@ -17,9 +17,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="creater_name" label="发起人"> </el-table-column>
-        <el-table-column prop="address" label="专家负责人"> </el-table-column>
+        <el-table-column prop="expert_name" label="专家负责人"> </el-table-column>
         <el-table-column prop="addtime" label="发起时间"> </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button circle @click="goDetail(scope.row, 'assist')">
               <i class="el-icon-arrow-right"></i>
@@ -37,8 +37,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="creater_name" label="发起人"> </el-table-column>
-        <el-table-column prop="address" label="发起时间"> </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="addtime" label="发起时间"> </el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button circle @click="goDetail(scope.row, 'synergy')">
               <i class="el-icon-arrow-right"></i>
