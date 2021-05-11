@@ -22,17 +22,17 @@ module.exports = {
     port: 8091,//端口号
     https: true,
     hotOnly: false,//webpack已经配置了
-    proxy: {
-      //配置跨域
-      // '/api': {
-      //   target: 'http//localhost:5000/api',
-      //   ws: true,
-      //   changOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': ''
-      //   }
-      // }
-    },
+    // proxy: {
+    //   //配置跨域
+    //   // '/api': {
+    //   //   target: 'http//localhost:5000/api',
+    //   //   ws: true,
+    //   //   changOrigin: true,
+    //   //   pathRewrite: {
+    //   //     '^/api': ''
+    //   //   }
+    //   // }
+    // },
     disableHostCheck: true,
   },
   // 全局注入通用样式
