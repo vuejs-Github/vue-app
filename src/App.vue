@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       changeTask: {},
-      token: ''
+      token: '',
+      filter: ''
     };
   },
 
@@ -133,14 +134,8 @@ export default {
       });
       //搜索我的协同
       PubSub.subscribe(FILTER_SYNERGY, (n, v) => {
-        this.setState(
-          {
-            filter: v,
-          },
-          () => {
-            this.initMySynergy("", "noGetNewTaskList");
-          }
-        );
+        this.filter = v
+        this.initMySynergy("", "noGetNewTaskList");
       });
       PubSub.subscribe("ADDMEMBER_SDK", (n, changeTask) => {
         this.changeTask = changeTask;
@@ -243,6 +238,7 @@ export default {
         num: data ? data.current : 1,
         size: data ? data.pageSize : 10,
         ttype: 1,
+        filter: this.filter
       };
       //我的协同总条数及列表信息
       let { result } = await this.taskList(params);
@@ -302,6 +298,9 @@ export default {
 }
 .mouse-pointer {
   cursor: pointer;
+}
+.inline-block {
+  display: inline-block;
 }
 // @import '~normalize.css/normalize.css';
 // @import './styles/index.scss';

@@ -4,8 +4,13 @@
     <el-row class="height100">
       <el-col :span="12"> 对接详情数据 </el-col>
       <el-col :span="12" class="border-left height100">
-        <chat-head @room="room" @exit="exit" :taskid="params.taskid" :status="params.status"/>
-        <holoview-sdk widget="Chat" :rid="params.rid" class="height-calc"/>
+        <chat-head
+          @room="room"
+          @exit="exit"
+          :taskid="params.taskid"
+          :status="params.status"
+        />
+        <holoview-sdk widget="Chat" :rid="params.rid" class="height-calc" />
         <holoview-sdk
           widget="ChatFoot"
           videoCall="true"
@@ -14,7 +19,10 @@
         />
       </el-col>
     </el-row>
-    <invite-dialog :inviteVisible.sync="inviteVisible" :taskid="params.taskid"/>
+    <invite-dialog
+      :inviteVisible.sync="inviteVisible"
+      :taskid="params.taskid"
+    />
   </div>
 </template>
 
@@ -32,24 +40,32 @@ export default {
   data() {
     return {
       params: {},
-      inviteVisible: false
+      inviteVisible: false,
     };
   },
   methods: {
     exit() {},
     //房间
     room() {
-      this.inviteVisible = true
-    }
+      this.inviteVisible = true;
+    },
+  },
+  beforeDestroy() {
+    PubSub.unsubscribe('IS_NEED_GOBACK')
   },
   created() {
     this.params = this.$route.query;
+    PubSub.subscribe("IS_NEED_GOBACK", (n, rid) => {
+      if (rid == this.params.rid) {
+        this.$router.back();
+      }
+    });
   },
 };
 </script>
 <style scoped>
-.height-calc >>> .chats{
-  height: calc(100% - 188px)!important;
+.height-calc >>> .chats {
+  height: calc(100% - 188px) !important;
 }
 .inline-block {
   display: inline-block;

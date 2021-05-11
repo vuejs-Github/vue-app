@@ -27,7 +27,15 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3>我的协同</h3>
+      <h3 class="inline-block mt10">我的协同</h3>
+      <el-input
+        placeholder="搜索"
+        style="width: 200px"
+        class="float-right mt10"
+        prefix-icon="el-icon-search"
+        @keyup.enter.native="query"
+        v-model="filter">
+      </el-input>
       <el-table :data="synergys.result" style="width: 100%">
         <el-table-column label="序号" type="index"> </el-table-column>
         <el-table-column prop="title" label="协同标题">
@@ -60,7 +68,15 @@
       </el-pagination>
     </div>
     <div v-else>
-      <h3>已结束协同</h3>
+      <h3 class="inline-block mt10">已结束协同</h3>
+      <el-input
+        placeholder="搜索"
+        style="width: 200px"
+        class="float-right mt10"
+        prefix-icon="el-icon-search"
+        @keyup.enter.native="initOver()"
+        v-model="overFilter">
+      </el-input>
       <el-table :data="overTable" style="width: 100%">
         <el-table-column type="index" label="序号"> </el-table-column>
         <el-table-column prop="title" label="协同标题"></el-table-column>
@@ -116,6 +132,8 @@ export default {
       overCount: 0,
       overSize: 10,
       overNum: 1,
+      filter:'',
+      overFilter: ''
     };
   },
   methods: {
@@ -124,11 +142,13 @@ export default {
     async initOver(v, type) {
       type === "size" && (this.overSize = v);
       type === "num" && (this.overNum = v);
+      !type && (this.overSize = 10, this.overNum = 1)
       const data = {
         status: 4,
         size: this.overSize,
         num: this.overNum,
-        ttype: 1
+        ttype: 1,
+        filter: this.overFilter
       };
       const { result, count } = await taskList(data);
       this.overTable = result;
@@ -194,7 +214,7 @@ export default {
     },
     //搜索
     query(v) {
-      PubSub.publish(FILTER_SYNERGY, v);
+      PubSub.publish(FILTER_SYNERGY, this.filter);
     },
 
     //关闭弹框
@@ -211,7 +231,7 @@ export default {
     this.initOver();
     //结束协同后重新查询
     PubSub.subscribe("OVER_SYNERGY", (n, rid) => {
-      this.init();
+      this.initOver();
     });
   },
 };
