@@ -2,7 +2,7 @@
  * 配置所有接口路径
  */
 
-const url = 'https://192.168.11.252'
+const url = 'https://demo.holoview-lab.com'
 
 module.exports = {
   taskList: `${url}/v1/tenantra/task/list`,

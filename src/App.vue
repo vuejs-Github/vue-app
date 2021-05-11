@@ -1,7 +1,7 @@
 <template>
   <div class="height100">
     <router-view />
-    <holoview-sdk widget="Main" baseUrl="https://192.168.11.252" v-if="token" :token="token" appKey="000001" />
+    <holoview-sdk widget="Main" baseUrl="https://demo.holoview-lab.com" v-if="token" :token="token" appKey="000001" />
   </div>
 </template>
 
