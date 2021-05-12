@@ -12,7 +12,7 @@ const instance = axios.create({
 let loadingService
 // Add a request interceptor
 instance.interceptors.request.use(config => {
-  config.headers.Authorization = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiAiMDEwMDAxMTI5NDYzMzY0IiwgInRlbmFudGlkIjogIjE1ODQxMTMwOTMxMjkzMDc4IiwgInVzZXJuYW1lIjogIm1hcmtfOSIsICJpZGVudGl0eSI6IDEsICJyb2xlIjogIjEiLCAiZGV2aWNlIjogIjMwMSIsICJob3N0IjogIjg1NCJ9.F477HrbimyP3SA1owLKklJJ9ivZUdEfH8-zSFS3hL0Q'
+  config.headers.Authorization = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiAiMDEwMDAxMTI4MTg4Mzg4IiwgInRlbmFudGlkIjogIjE2MzE1ODk5NDAxMjA4MjY0IiwgInVzZXJuYW1lIjogIlx1NmQ0Ylx1OGJkNSIsICJpZGVudGl0eSI6IDEsICJyb2xlIjogIjEiLCAiZGV2aWNlIjogIjMwMSIsICJob3N0IjogIjIyNiJ9.FJxBRGZ_85yXZa4EmfOb69PM_A-aIpTZ3_L0KaeiNe0'
   // Do something before request is sent
   loadingService = Loading.service({
     lock: true,
@@ -30,6 +30,13 @@ instance.interceptors.response.use(response => {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
   loadingService.close()
+  if(response.data.mention) {
+    Message({
+      type: 'error',
+      showClose: true,
+      message: response.data.mention
+    })
+  }
   return response.data;
 }, error => {  
   // Any status codes that falls outside the range of 2xx cause this function to trigger
