@@ -1,7 +1,7 @@
 <template>
   <div class="height100">
     <router-view />
-    <holoview-sdk widget="Main" baseUrl="https://demo.holoview-lab.com" v-if="token" :token="token" appKey="000001" />
+    <holoview-sdk widget="Main" :baseUrl="config.baseUrl" v-if="token" :token="token" :appKey="config.appKey" />
   </div>
 </template>
 
@@ -34,7 +34,11 @@ export default {
     return {
       changeTask: {},
       token: '',
-      filter: ''
+      filter: '',
+      config: {
+        baseUrl: 'https://demo.holoview-lab.com',
+        appKey: '000001'
+      }
     };
   },
 
@@ -270,6 +274,12 @@ export default {
         }
       }
     },
+    development() {
+      const tt = localStorage.getItem('holoview-config')
+      if(tt) {
+        this.config = JSON.parse(tt)
+      }
+    }
   },
   mounted() {
     //登录
@@ -281,6 +291,8 @@ export default {
     this.init();
     //监听
     this.monitor();
+    //开发配置
+    this.development()
   },
   beforeDestroy() {
     window.name = "";

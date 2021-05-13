@@ -12,7 +12,12 @@ const instance = axios.create({
 let loadingService
 // Add a request interceptor
 instance.interceptors.request.use(config => {
-  config.headers.Authorization = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiAiMDEwMDAxMTI4MTg4Mzg4IiwgInRlbmFudGlkIjogIjE2MzE1ODk5NDAxMjA4MjY0IiwgInVzZXJuYW1lIjogIlx1NmQ0Ylx1OGJkNSIsICJpZGVudGl0eSI6IDEsICJyb2xlIjogIjEiLCAiZGV2aWNlIjogIjMwMSIsICJob3N0IjogIjIyNiJ9.FJxBRGZ_85yXZa4EmfOb69PM_A-aIpTZ3_L0KaeiNe0'
+  const tt = localStorage.getItem('holoview-config')
+  let token = ''
+  if(tt) {
+    token = 'Bearer ' + JSON.parse(tt).token
+  }
+  config.headers.Authorization = token
   // Do something before request is sent
   loadingService = Loading.service({
     lock: true,

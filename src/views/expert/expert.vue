@@ -5,6 +5,8 @@
         <el-radio-button label="ing">在进行</el-radio-button>
         <el-radio-button label="over">已结束</el-radio-button>
       </el-radio-group>
+      <i @click="showConfig" class="el-icon-setting float-right mouse-pointer" style="font-size: 22px;margin: 10px"></i>
+      <config ref="config" />
     </div>
     <div v-if="radioType === 'ing'">
       <h3>协助协同</h3>
@@ -110,6 +112,7 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { stringify } from "qs";
+import config from '../config/config'
 import { taskList } from "@/api/test.js";
 import { SYNERGYSPAGE } from '../../store/constants/test'
 import {
@@ -123,6 +126,7 @@ export default {
   computed: {
     ...mapGetters(["assists", "synergys", "synergysPage"]),
   },
+  components: {config},
   data() {
     return {
       assistTable: [],
@@ -138,6 +142,10 @@ export default {
   },
   methods: {
     ...mapMutations([SYNERGYSPAGE]),
+
+    showConfig() {
+      this.$refs.config.config(true)
+    },
 
     async initOver(v, type) {
       type === "size" && (this.overSize = v);
