@@ -7,7 +7,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="token：">
-        <el-input type="textarea" :rows="5" v-model="form.token"></el-input>
+        <el-input type="textarea" placeholder="token相当于登录的账户，需要找马克伟要" :rows="5" v-model="form.token"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -23,7 +23,8 @@ export default {
     return {
       dialogVisible: false,
       form: {
-        env: {}
+        env: {},
+        token: ''
       },
       envs: [
         {
