@@ -1,13 +1,13 @@
 <template>
   <el-dialog title="环境配置" :visible.sync="dialogVisible" width="40%">
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="环境">
+      <el-form-item label="环境：">
         <el-select style="width: 100%" value-key="appKey" v-model="form.env" placeholder="请选择活动区域">
           <el-option v-for="item of envs" :key="item.label" :label="item.label" :value="item"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="token">
-        <el-input type="textarea" v-model="form.token"></el-input>
+      <el-form-item label="token：">
+        <el-input type="textarea" :rows="5" v-model="form.token"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
