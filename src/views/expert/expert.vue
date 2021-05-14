@@ -1,110 +1,139 @@
 <template>
   <div>
-    <div class="text-center">
-      <el-radio-group v-model="radioType">
-        <el-radio-button label="ing">在进行</el-radio-button>
-        <el-radio-button label="over">已结束</el-radio-button>
-      </el-radio-group>
-      <i @click="showConfig" class="el-icon-setting float-right mouse-pointer" style="font-size: 22px;margin: 10px"></i>
-      <config ref="config" />
-    </div>
-    <div v-if="radioType === 'ing'">
-      <h3>协助协同</h3>
-      <el-table :data="assists.result" style="width: 100%">
-        <el-table-column label="序号" type="index"> </el-table-column>
-        <el-table-column prop="title" label="协同标题">
-          <template slot-scope="scope">
-            {{ scope.row.title }}
-            <el-badge :value="scope.row.msgTip"></el-badge>
-          </template>
-        </el-table-column>
-        <el-table-column prop="creater_name" label="发起人"> </el-table-column>
-        <el-table-column prop="expert_name" label="专家负责人"> </el-table-column>
-        <el-table-column prop="addtime" label="发起时间"> </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button circle @click="goDetail(scope.row, 'assist')">
-              <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <h3 class="inline-block mt10">我的协同</h3>
-      <el-input
-        placeholder="搜索"
-        style="width: 200px"
-        class="float-right mt10"
-        prefix-icon="el-icon-search"
-        @keyup.enter.native="query"
-        v-model="filter">
-      </el-input>
-      <el-table :data="synergys.result" style="width: 100%">
-        <el-table-column label="序号" type="index"> </el-table-column>
-        <el-table-column prop="title" label="协同标题">
-          <template slot-scope="scope">
-            {{ scope.row.title }}
-            <el-badge :value="scope.row.msgTip"></el-badge>
-          </template>
-        </el-table-column>
-        <el-table-column prop="creater_name" label="发起人"> </el-table-column>
-        <el-table-column prop="addtime" label="发起时间"> </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button circle @click="goDetail(scope.row, 'synergy')">
-              <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="initAM($event, 'size')"
-        @current-change="initAM($event, 'num')"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="synergysPage.mSize"
-        background
-        :current-page.sync="synergysPage.mNum"
-        class="float-right mt10"
-        layout="prev, pager, next, sizes"
-        :total="synergys.count"
+    <div v-if="permissions === 1333">
+      <el-dialog
+        title="暂无权限访问"
+        :visible.sync="dialogVisible"
+        :show-close="false"
       >
-      </el-pagination>
+        <div style="display: flex; align-items: center;justify-content: center">
+          <i class="el-icon-warning mr5" style="font-size: 26px;color: #f19d38"></i>
+          <span>暂无权限访问</span>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="$router.back()"
+            >返回上页</el-button
+          >
+        </span>
+      </el-dialog>
     </div>
     <div v-else>
-      <h3 class="inline-block mt10">已结束协同</h3>
-      <el-input
-        placeholder="搜索"
-        style="width: 200px"
-        class="float-right mt10"
-        prefix-icon="el-icon-search"
-        @keyup.enter.native="initOver()"
-        v-model="overFilter">
-      </el-input>
-      <el-table :data="overTable" style="width: 100%">
-        <el-table-column type="index" label="序号"> </el-table-column>
-        <el-table-column prop="title" label="协同标题"></el-table-column>
-        <el-table-column prop="creater_name" label="发起人"> </el-table-column>
-        <el-table-column prop="addtime" label="发起时间"> </el-table-column>
-        <el-table-column prop="address" label="协助专家"> </el-table-column>
-        <el-table-column prop="address" label="结束时间"></el-table-column>
-        <el-table-column prop="address" label="操作">
-          <template slot-scope="scope">
-            <el-button circle @click="goDetail(scope.row, 'over')">
-              <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="initOver($event, 'size')"
-        @current-change="initOver($event, 'num')"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="overSize"
-        background
-        class="float-right mt10"
-        layout="prev, pager, next, sizes"
-        :total="overCount"
-      >
-      </el-pagination>
+      <div class="text-center">
+        <el-radio-group v-model="radioType">
+          <el-radio-button label="ing">在进行</el-radio-button>
+          <el-radio-button label="over">已结束</el-radio-button>
+        </el-radio-group>
+        <i
+          @click="showConfig"
+          class="el-icon-setting float-right mouse-pointer"
+          style="font-size: 22px; margin: 10px"
+        ></i>
+        <config ref="config" />
+      </div>
+      <div v-if="radioType === 'ing'">
+        <h3>协助协同</h3>
+        <el-table :data="assists.result" style="width: 100%">
+          <el-table-column label="序号" type="index"> </el-table-column>
+          <el-table-column prop="title" label="协同标题">
+            <template slot-scope="scope">
+              {{ scope.row.title }}
+              <el-badge :value="scope.row.msgTip"></el-badge>
+            </template>
+          </el-table-column>
+          <el-table-column prop="creater_name" label="发起人">
+          </el-table-column>
+          <el-table-column prop="expert_name" label="专家负责人">
+          </el-table-column>
+          <el-table-column prop="addtime" label="发起时间"> </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button circle @click="goDetail(scope.row, 'assist')">
+                <i class="el-icon-arrow-right"></i>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <h3 class="inline-block mt10">我的协同</h3>
+        <el-input
+          placeholder="搜索"
+          style="width: 200px"
+          class="float-right mt10"
+          prefix-icon="el-icon-search"
+          @keyup.enter.native="query"
+          v-model="filter"
+        >
+        </el-input>
+        <el-table :data="synergys.result" style="width: 100%">
+          <el-table-column label="序号" type="index"> </el-table-column>
+          <el-table-column prop="title" label="协同标题">
+            <template slot-scope="scope">
+              {{ scope.row.title }}
+              <el-badge :value="scope.row.msgTip"></el-badge>
+            </template>
+          </el-table-column>
+          <el-table-column prop="creater_name" label="发起人">
+          </el-table-column>
+          <el-table-column prop="addtime" label="发起时间"> </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button circle @click="goDetail(scope.row, 'synergy')">
+                <i class="el-icon-arrow-right"></i>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          @size-change="initAM($event, 'size')"
+          @current-change="initAM($event, 'num')"
+          :page-sizes="[10, 20, 50, 100]"
+          :page-size="synergysPage.mSize"
+          background
+          :current-page.sync="synergysPage.mNum"
+          class="float-right mt10"
+          layout="prev, pager, next, sizes"
+          :total="synergys.count"
+        >
+        </el-pagination>
+      </div>
+      <div v-else>
+        <h3 class="inline-block mt10">已结束协同</h3>
+        <el-input
+          placeholder="搜索"
+          style="width: 200px"
+          class="float-right mt10"
+          prefix-icon="el-icon-search"
+          @keyup.enter.native="initOver()"
+          v-model="overFilter"
+        >
+        </el-input>
+        <el-table :data="overTable" style="width: 100%">
+          <el-table-column type="index" label="序号"> </el-table-column>
+          <el-table-column prop="title" label="协同标题"></el-table-column>
+          <el-table-column prop="creater_name" label="发起人">
+          </el-table-column>
+          <el-table-column prop="addtime" label="发起时间"> </el-table-column>
+          <el-table-column prop="address" label="协助专家"> </el-table-column>
+          <el-table-column prop="address" label="结束时间"></el-table-column>
+          <el-table-column prop="address" label="操作">
+            <template slot-scope="scope">
+              <el-button circle @click="goDetail(scope.row, 'over')">
+                <i class="el-icon-arrow-right"></i>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          @size-change="initOver($event, 'size')"
+          @current-change="initOver($event, 'num')"
+          :page-sizes="[10, 20, 50, 100]"
+          :page-size="overSize"
+          background
+          class="float-right mt10"
+          layout="prev, pager, next, sizes"
+          :total="overCount"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -112,9 +141,9 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { stringify } from "qs";
-import config from '../config/config'
+import config from "../config/config";
 import { taskList } from "@/api/test.js";
-import { SYNERGYSPAGE } from '../../store/constants/test'
+import { SYNERGYSPAGE } from "../../store/constants/test";
 import {
   HANG_UP,
   GET_INIT_MY_SYNERGY,
@@ -124,9 +153,9 @@ import {
 export default {
   name: "expert",
   computed: {
-    ...mapGetters(["assists", "synergys", "synergysPage"]),
+    ...mapGetters(["assists", "synergys", "synergysPage", "permissions"]),
   },
-  components: {config},
+  components: { config },
   data() {
     return {
       assistTable: [],
@@ -136,27 +165,28 @@ export default {
       overCount: 0,
       overSize: 10,
       overNum: 1,
-      filter:'',
-      overFilter: ''
+      filter: "",
+      overFilter: "",
+      dialogVisible: true,
     };
   },
   methods: {
     ...mapMutations([SYNERGYSPAGE]),
 
     showConfig() {
-      this.$refs.config.config(true)
+      this.$refs.config.config(true);
     },
 
     async initOver(v, type) {
       type === "size" && (this.overSize = v);
       type === "num" && (this.overNum = v);
-      !type && (this.overSize = 10, this.overNum = 1)
+      !type && ((this.overSize = 10), (this.overNum = 1));
       const data = {
         status: 4,
         size: this.overSize,
         num: this.overNum,
         ttype: 1,
-        filter: this.overFilter
+        filter: this.overFilter,
       };
       const { result, count } = await taskList(data);
       this.overTable = result;
@@ -212,8 +242,8 @@ export default {
     },
 
     initAM(v, type) {
-      type === "size" && this[SYNERGYSPAGE]({mSize: v})
-      type === "num" && this[SYNERGYSPAGE]({mNum: v})
+      type === "size" && this[SYNERGYSPAGE]({ mSize: v });
+      type === "num" && this[SYNERGYSPAGE]({ mNum: v });
       let data = {
         current: this.synergysPage.mNum,
         pageSize: this.synergysPage.mSize,

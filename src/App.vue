@@ -10,7 +10,7 @@ import HoloviewSdk from 'holoview-sdk'
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import PubSub from "pubsub-js";
 import { session } from "@/api/test.js";
-import { SYNERGYSPAGE } from './store/constants/test'
+import { SYNERGYSPAGE, PERMISSIONS } from './store/constants/test'
 import { uuid } from "@/assets/js/common";
 import {
   GET_MY_SYNERGYS,
@@ -44,15 +44,16 @@ export default {
 
   methods: {
     ...mapActions(["taskList", "initMySynergy"]),
-    ...mapMutations([SYNERGYSPAGE]),
+    ...mapMutations([SYNERGYSPAGE, PERMISSIONS]),
 
     async session() {
       const data = {
         device: '301',
         host: uuid()
       }
-      const { result } = await session(data);
+      const { result, code } = await session(data);
       this.token = result.token
+      this[PERMISSIONS](code)
     },
 
     dealTags() {
@@ -312,6 +313,9 @@ export default {
 }
 .inline-block {
   display: inline-block;
+}
+.mr5 {
+  margin-right: 5px;
 }
 // @import '~normalize.css/normalize.css';
 // @import './styles/index.scss';

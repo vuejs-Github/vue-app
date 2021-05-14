@@ -1,8 +1,13 @@
 /**
  * 配置所有接口路径
  */
-
-const url = 'https://demo.holoview-lab.com'
+const tt = localStorage.getItem('holoview-config')
+let url
+if (tt) {
+  url = JSON.parse(tt).baseUrl
+} else {
+  url = 'https://demo.holoview-lab.com'
+}
 
 module.exports = {
   taskList: `${url}/v1/tenantra/task/list`,

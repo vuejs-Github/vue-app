@@ -1,4 +1,4 @@
-import { GETASSISTS, GETSYNERGYS, SYNERGYSPAGE } from '../constants/test'
+import { GETASSISTS, GETSYNERGYS, SYNERGYSPAGE, PERMISSIONS } from '../constants/test'
 import { taskList } from '@/api/test'
 
 const test = {
@@ -12,7 +12,8 @@ const test = {
     synergysPage: {
       mNum: 1,
       mSize: 10
-    }
+    },
+    code: 0
   },
 
   mutations: {
@@ -24,6 +25,9 @@ const test = {
     },
     [SYNERGYSPAGE](state, data) {
       state.synergysPage = {...state.synergysPage, ...data}
+    },
+    [PERMISSIONS] (state, code) {
+      state.code = code
     }
   },
 
@@ -52,6 +56,9 @@ const test = {
     },
     synergysPage: state => {
       return state.synergysPage
+    },
+    permissions: state => {
+      return state.code
     }
   }
 }

@@ -241,9 +241,6 @@ export default {
 .mt5 {
   margin-top: 5px;
 }
-.mr5 {
-  margin-right: 5px;
-}
 .ml10 {
   margin-left: 10px;
 }
