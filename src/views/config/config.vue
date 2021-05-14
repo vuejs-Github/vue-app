@@ -30,7 +30,7 @@ export default {
         {
           label: '252',
           baseUrl: 'https://192.168.11.252',
-          appKey: '600001'
+          appKey: '000001'
         },
         {
           label: '小拿',
