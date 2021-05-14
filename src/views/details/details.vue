@@ -7,7 +7,7 @@
         <chat-head
           @room="room"
           @exit="exit"
-          :taskid="params.taskid"
+          :id="params.id"
           :status="params.status"
         />
         <holoview-sdk widget="Chat" :rid="params.rid" class="height-calc" />
@@ -21,7 +21,7 @@
     </el-row>
     <invite-dialog
       :inviteVisible.sync="inviteVisible"
-      :taskid="params.taskid"
+      :id="params.id"
     />
   </div>
 </template>

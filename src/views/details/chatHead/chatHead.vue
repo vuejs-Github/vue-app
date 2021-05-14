@@ -26,7 +26,7 @@
 import { status } from "@/api/test.js";
 export default {
   name: "chatHead",
-  props: ["status", "taskid"],
+  props: ["status", "id"],
   data() {
     return {
       endModal: false,
@@ -39,7 +39,7 @@ export default {
         this.$emit('exit')
       } else {
         let data = {
-          taskid: this.taskid,
+          id: this.id,
           status: 4,
         };
         status(data).then((res) => {

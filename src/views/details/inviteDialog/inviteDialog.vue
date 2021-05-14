@@ -85,7 +85,7 @@
 <script>
 import { members, list } from "../../../api/test";
 export default {
-  props: ["inviteVisible", "taskid"],
+  props: ["inviteVisible", "id"],
   data() {
     return {
       inviteRoom: [],
@@ -105,7 +105,7 @@ export default {
     },
     async room(flag, getInRoom) {
       //在房间
-      let res = await members({ taskid: this.taskid });
+      let res = await members({ id: this.id });
       this.inRoom = res.result;
 
       // getInRoom ? getInRoom(res.result) : ""; //获取列表
@@ -141,7 +141,7 @@ export default {
         .filter((per) => per)
         .join();
       if (uid.length) {
-        let { code } = await members({ taskid: this.taskid, uid }, "post");
+        let { code } = await members({ id: this.id, uid }, "post");
         if (code === 0) {
           this.close();
           this.$message({
@@ -158,7 +158,7 @@ export default {
     },
     async removeMember({uid}) {
       let { code } = await members(
-        { taskid: this.taskid, uid },
+        { id: this.id, uid },
         "delete"
       );
       if(code === 0) {

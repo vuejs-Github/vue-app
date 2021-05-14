@@ -180,7 +180,6 @@ export default {
             return intl.get("ClosedSynergy");
           }
           result.nickname = result.createrName;
-          result.taskid = result.id;
           switch (
             result.tasktype //1 辅助协同  0 我的协同 2 我的任务
           ) {
@@ -270,7 +269,7 @@ export default {
       for (let item of result) {
         //改变接受状态
         if (item.status == 0) {
-          status({ taskid: item.taskid, status: 1 });
+          status({ id: item.id, status: 1 });
         }
       }
     },

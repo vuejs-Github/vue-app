@@ -163,7 +163,7 @@ export default {
       this.overCount = count;
     },
     //打开详情
-    goDetail({ taskid, rid }, status, pop) {
+    goDetail({ id, rid, taskid, sheetid }, status, pop) {
       // this.props.getPopout({ incomingCallModal: false })// 关闭接听弹框
       if (status != "over") {
         let data = {
@@ -172,7 +172,7 @@ export default {
         };
         PubSub.publish(GET_MY_SYNERGYS, data); ////重置消息条数
       }
-      const query = { taskid, status, rid };
+      const query = { id, status, rid, taskid, sheetid };
       this.$router.history.push({
         path: `/detail`,
         query,
@@ -189,8 +189,8 @@ export default {
 
     //删除全部
     deleteAll(flag) {
-      this.state[flag].forEach((taskid) => {
-        $api.agenttask(taskid).then((res) => {
+      this.state[flag].forEach((id) => {
+        $api.agenttask(id).then((res) => {
           if (res.code === 0) {
             if (flag == "selectedRowKeys") {
               PubSub.publish(GET_INIT_MY_SYNERGY); //重新获取协同列表
