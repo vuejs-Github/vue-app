@@ -37,7 +37,7 @@
           <el-table-column prop="title" label="协同标题">
             <template slot-scope="scope">
               {{ scope.row.title }}
-              <el-badge :value="scope.row.msgTip"></el-badge>
+              <el-badge :value="scope.row.msgTip" style="margin-top: 9px"></el-badge>
             </template>
           </el-table-column>
           <el-table-column prop="creater_name" label="发起人">
@@ -68,7 +68,7 @@
           <el-table-column prop="title" label="协同标题">
             <template slot-scope="scope">
               {{ scope.row.title }}
-              <el-badge :value="scope.row.msgTip"></el-badge>
+              <el-badge :value="scope.row.msgTip" style="margin-top: 9px"></el-badge>
             </template>
           </el-table-column>
           <el-table-column prop="creater_name" label="发起人">
