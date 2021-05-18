@@ -3,6 +3,8 @@
     <div v-if="permissions === 1333">
       <el-dialog
         title="暂无权限访问"
+        :modal="false"
+        :close-on-click-modal="false"
         :visible.sync="dialogVisible"
         :show-close="false"
       >
@@ -11,9 +13,9 @@
           <span>暂无权限访问</span>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="$router.back()"
+          <!-- <el-button type="primary" @click="$router.back()"
             >返回上页</el-button
-          >
+          > -->
         </span>
       </el-dialog>
     </div>
@@ -57,7 +59,7 @@
         <el-input
           placeholder="搜索"
           style="width: 200px"
-          class="float-right mt10"
+          class="float-right mt10 mb10"
           prefix-icon="el-icon-search"
           @keyup.enter.native="query"
           v-model="filter"
@@ -100,7 +102,7 @@
         <el-input
           placeholder="搜索"
           style="width: 200px"
-          class="float-right mt10"
+          class="float-right mt10 mb10"
           prefix-icon="el-icon-search"
           @keyup.enter.native="initOver()"
           v-model="overFilter"
@@ -286,5 +288,8 @@ export default {
 }
 .mt10 {
   margin-top: 10px;
+}
+.mb10 {
+  margin-bottom: 10px;
 }
 </style>
