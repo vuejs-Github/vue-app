@@ -1,24 +1,11 @@
 <template>
   <div>
-    <div v-if="permissions === 1333">
-      <el-dialog
-        title="暂无权限访问"
-        :modal="false"
-        :close-on-click-modal="false"
-        :visible.sync="dialogVisible"
-        :show-close="false"
-      >
-        <div style="display: flex; align-items: center;justify-content: center">
-          <i class="el-icon-warning mr5" style="font-size: 26px;color: #f19d38"></i>
-          <span>暂无权限访问</span>
-        </div>
-        <span slot="footer" class="dialog-footer">
-          <!-- <el-button type="primary" @click="$router.back()"
-            >返回上页</el-button
-          > -->
-        </span>
-      </el-dialog>
-    </div>
+    <el-card shadow="always" style="margin: 150px" v-if="permissions === 1333">
+      <div style="display: flex; justify-content: center;padding: 50px">
+        <i class="el-icon-warning mr5" style="font-size: 26px;color: #f19d38"></i>
+        <span>暂无权限访问</span>
+      </div>
+    </el-card>
     <div v-else>
       <div class="text-center">
         <el-radio-group v-model="radioType">
