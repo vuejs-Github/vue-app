@@ -9,7 +9,7 @@ const instance = axios.create({
 })
 
 //Interceptors
-let loadingService
+// let loadingService
 // Add a request interceptor
 instance.interceptors.request.use(config => {
   const tt = localStorage.getItem('holoview-config')
@@ -19,13 +19,13 @@ instance.interceptors.request.use(config => {
   }
   config.headers.Authorization = token
   // Do something before request is sent
-  loadingService = Loading.service({
-    lock: true,
-    text: 'Loading',
-  })
+  // loadingService = Loading.service({
+  //   lock: true,
+  //   text: 'Loading',
+  // })
   return config
 }, error => {
-  loadingService.close()
+  // loadingService.close()
   // Do something with request error
   return Promise.reject(error)
 })
@@ -34,7 +34,7 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(response => {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
-  loadingService.close()
+  // loadingService.close()
   if(response.data.mention) {
     Message({
       type: 'error',
@@ -53,7 +53,7 @@ instance.interceptors.response.use(response => {
       message: codes.errorCodes[error.response.status]
     })
   }
-  loadingService.close()
+  // loadingService.close()
   return Promise.reject(error);
 });
 
