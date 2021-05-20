@@ -129,7 +129,7 @@ export default {
       });
       //被踢
       PubSub.subscribe("KICKED_SDK", () => {
-        this.$router.history.push("/expert");
+        this.$router.history.push("/login");
       });
       //结束协同后重新查询
       PubSub.subscribe("END_SDK", (n, rid) => {
