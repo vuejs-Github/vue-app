@@ -24,6 +24,7 @@
 </template>
 <script>
 import { status } from "@/api/test.js";
+import { GET_INIT_MY_SYNERGY } from "@/constants/types.js";
 export default {
   name: "chatHead",
   props: ["status", "id"],
