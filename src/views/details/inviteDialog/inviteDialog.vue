@@ -141,6 +141,13 @@ export default {
         .filter((per) => per)
         .join();
       if (uid.length) {
+        if(uid.length + this.inRoom.length > 5) {
+          this.$message({
+            message: "最多可邀请3位员工",
+            type: "warning",
+          });
+          return
+        }
         let { code } = await members({ id: this.id, uid }, "post");
         if (code === 0) {
           this.close();
