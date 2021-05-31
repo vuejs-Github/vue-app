@@ -136,12 +136,12 @@ export default {
       }
     },
     async addMember() {
-      const uid = this.inviteRoom
+      const uids = this.inviteRoom
         .map((per) => per.checked && per.uid)
         .filter((per) => per)
-        .join();
-      if (uid.length) {
-        if(uid.length + this.inRoom.length > 5) {
+      const uid = uids.join();
+      if (uids.length) {
+        if(uids.length + this.inRoom.length > 5) {
           this.$message({
             message: "最多可邀请3位员工",
             type: "warning",

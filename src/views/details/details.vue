@@ -10,19 +10,24 @@
           :id="params.id"
           :status="params.status"
         />
-        <holoview-sdk widget="Chat" :rid="params.rid" class="height-calc" />
+        <holoview-sdk
+          widget="Chat"
+          baseUrl="https://demo.holoview-lab.com"
+          appKey="000001"
+          :rid="params.rid"
+          class="height-calc"
+        />
         <holoview-sdk
           widget="ChatFoot"
           videoCall="true"
+          baseUrl="https://demo.holoview-lab.com"
+          appKey="000001"
           status="synergy"
           :rid="params.rid"
         />
       </el-col>
     </el-row>
-    <invite-dialog
-      :inviteVisible.sync="inviteVisible"
-      :id="params.id"
-    />
+    <invite-dialog :inviteVisible.sync="inviteVisible" :id="params.id" />
   </div>
 </template>
 
@@ -51,7 +56,7 @@ export default {
     },
   },
   beforeDestroy() {
-    PubSub.unsubscribe('IS_NEED_GOBACK')
+    PubSub.unsubscribe("IS_NEED_GOBACK");
   },
   created() {
     this.params = this.$route.query;
