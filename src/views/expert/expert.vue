@@ -1,8 +1,11 @@
 <template>
   <div>
     <el-card shadow="always" style="margin: 150px" v-if="permissions === 1333">
-      <div style="display: flex; justify-content: center;padding: 50px">
-        <i class="el-icon-warning mr5" style="font-size: 26px;color: #f19d38"></i>
+      <div style="display: flex; justify-content: center; padding: 50px">
+        <i
+          class="el-icon-warning mr5"
+          style="font-size: 26px; color: #f19d38"
+        ></i>
         <span>暂无权限访问</span>
       </div>
     </el-card>
@@ -26,7 +29,10 @@
           <el-table-column prop="title" label="协同标题">
             <template slot-scope="scope">
               {{ scope.row.title }}
-              <el-badge :value="scope.row.msgTip" style="margin-top: 9px"></el-badge>
+              <el-badge
+                :value="scope.row.msgTip"
+                style="margin-top: 9px"
+              ></el-badge>
             </template>
           </el-table-column>
           <el-table-column prop="creater_name" label="发起人">
@@ -57,7 +63,10 @@
           <el-table-column prop="title" label="协同标题">
             <template slot-scope="scope">
               {{ scope.row.title }}
-              <el-badge :value="scope.row.msgTip" style="margin-top: 9px"></el-badge>
+              <el-badge
+                :value="scope.row.msgTip"
+                style="margin-top: 9px"
+              ></el-badge>
             </template>
           </el-table-column>
           <el-table-column prop="creater_name" label="发起人">
@@ -101,8 +110,12 @@
           <el-table-column prop="creater_name" label="发起人">
           </el-table-column>
           <el-table-column prop="addtime" label="发起时间"> </el-table-column>
-          <el-table-column prop="address" label="协助专家"> </el-table-column>
-          <el-table-column prop="address" label="结束时间"></el-table-column>
+          <el-table-column prop="members" label="协助专家">
+            <template slot-scope="scope">
+              <span>{{ scope.row.members || "-" }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="endtime" label="结束时间"></el-table-column>
           <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
               <el-button circle @click="goDetail(scope.row, 'over')">
