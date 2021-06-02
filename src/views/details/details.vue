@@ -6,7 +6,6 @@
       <el-col :span="12" class="border-left height100">
         <chat-head
           @room="room"
-          @exit="exit"
           :id="params.id"
           :status="params.status"
         />
@@ -49,7 +48,6 @@ export default {
     };
   },
   methods: {
-    exit() {},
     //房间
     room() {
       this.inviteVisible = true;

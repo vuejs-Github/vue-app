@@ -23,8 +23,8 @@
   </div>
 </template>
 <script>
-import { status } from "@/api/test.js";
-import { GET_INIT_MY_SYNERGY } from "@/constants/types.js";
+import { status, members } from "@/api/test.js";
+import { GET_INIT_MY_SYNERGY, GET_INIT_SYNERGY } from "@/constants/types.js";
 export default {
   name: "chatHead",
   props: ["status", "id"],
@@ -35,9 +35,17 @@ export default {
   },
   methods: {
     over() {
-      if (this.status === "assist") {
+      if (this.status !== "assist") {
         //退出
-        this.$emit('exit')
+        const { holoview_uid } = JSON.parse(
+          sessionStorage.getItem("holoview_userInfo")
+        );
+        members({ id: this.id, uid: holoview_uid }, "delete").then((res) => {
+          PubSub.publish(GET_INIT_SYNERGY, "no"); //重新获取协同列表
+          this.$router.history.push({
+            path: `/expert`,
+          });
+        });
       } else {
         let data = {
           id: this.id,
