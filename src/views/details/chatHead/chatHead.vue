@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     over() {
-      if (this.status !== "assist") {
+      if (this.status === "assist") {
         //退出
         const { holoview_uid } = JSON.parse(
           sessionStorage.getItem("holoview_userInfo")
